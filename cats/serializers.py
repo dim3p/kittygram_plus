@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+import datetime as dt
 from .models import Achievement, Cat, Owner, AchievementCat
 
 
@@ -26,10 +26,8 @@ class CatSerializer(serializers.ModelSerializer):
         achievements = validated_data.pop('achievements')
         cat = Cat.objects.create(**validated_data)
         for achievement in achievements:
-            current_achievement, status = Achievement.objects.get_or_create(
-                **achievement)
-            AchievementCat.objects.create(
-                achievement=current_achievement, cat=cat)
+            current_achievement, status = Achievement.objects.get_or_create(**achievement)
+            AchievementCat.objects.create(achievement=current_achievement, cat=cat)
         return cat
 
 
